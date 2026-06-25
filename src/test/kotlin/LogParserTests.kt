@@ -19,6 +19,20 @@ class LogParserTests {
     }
 
     @Test
+    fun get_line_descriptions_with_amount() {
+        val log = listOf(
+            "INFO: User login",
+            "BARNING: Disk almost full",
+            "ERROR: Invalid password"
+        )
+        val expected = "1| INFO: User login\n2| <<<Fehler>>>"
+
+        val actual = LogParser().getLineDescriptions(log, 2)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
     fun get_valid_lines() {
         val log = listOf(
             "INFO: User login",

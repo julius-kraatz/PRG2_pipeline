@@ -37,6 +37,13 @@ class LogParser {
         return result
     }
 
+    fun getValidLines(log: List<String>): String {
+        return log
+            .map { parseLog(it) }
+            .mapNotNull { it.getValueOrNull() }
+            .joinToString("\n")
+    }
+
     fun getLineDescriptions(log: List<String>): String {
         return log
             .map { parseLog(it) }
@@ -44,10 +51,11 @@ class LogParser {
             .joinToString("\n")
     }
 
-    fun getValidLines(log: List<String>): String {
-        return log
+    fun getLineDescriptions(log: List<String>, amount : Int): String {
+        return log.asSequence()
             .map { parseLog(it) }
-            .mapNotNull { it.getValueOrNull() }
+            .mapIndexed { index, result -> result.toLineDescription(index) }
+            .take(amount)
             .joinToString("\n")
     }
 }
